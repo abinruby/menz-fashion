@@ -1,0 +1,321 @@
+<%-include('../include/adminheader.ejs')-%>
+
+  <body style="width: 100%; height:100%">
+    
+    <nav class="navbar navbar-expand-lg navbackground mb-5">
+      <div class="container-fluid ">
+        <a class="navbar-brand" href="/admin">Admin </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="/admin">dashboard</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/admin/orders">Orders</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/admin/products">Products</a>
+            </li>
+            <li class="nav-item">
+              <a href="/admin/usermanagement" class="nav-link ">Users</a>
+            </li>
+            <li class="nav-item">
+              <a href="/admin/category" class="nav-link ">Category</a>
+            </li>
+            <li class="nav-item">
+              <a href="/admin/logout" class="nav-link ">Sign out</a>
+            </li>
+            <li class="nav-item dropdown-content">
+              
+               
+             
+              <div class="dropdown">
+                <button class="btn btn  border-0 shadow-none dropdown-toggle nav-link " type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
+              Offers
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                  <li> <a href="/admin/categoryoffer" class="nav-link">Category Offers</a></li>
+                  <li> <a href="/admin/couponoffer" class="nav-link">coupon Offers</a></li>
+                  <li><a href="/admin/referraloffer" class="nav-link">Referal Offers</a></li>
+                </ul>
+              </div>
+            </li>
+            <li class="nav-item">
+              <a href="/admin/bannermanage" class="nav-link "> banner</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+
+    <section>
+      
+      <div class="container py-3 shadow-lg"  style="width: 100%; height: 100%; ">
+        <div class="row  " >
+          <div class="col-12 d-md-flex">
+            <div class="d-md-flex  justify-content-between col-4 col-md-4">
+              <div class="col-sm-11 col-md-6">
+                <div class="\ bg-light rounded d-flex align-items-center  p-4">
+                    <i class="fa fa-chart-line fa-3x text-primary"></i>
+                    <div class="ms-3">
+                        <p class="mb-2">Total Sale</p>
+                        <h6 class="mb-0"><%=total%>Rs</h6>
+                    </div>
+                </div>
+            </div>
+               
+            </div>
+            <div class="d-flex  justify-content-between col-md-4 col-4">
+              <div class="col-sm-11 col-md-6">
+                <div class="\ bg-light rounded d-flex align-items-center  p-4">
+                    <i class="fa fa-chart-line fa-3x text-primary"></i>
+                    <div class="ms-3">
+                        <p class="mb-2">NO of Users</p>
+                        <h6 class="mb-0"><%=usersdetails.length%> Users</h6>
+                    </div>
+                </div>
+            </div>
+               
+            </div>
+            <div class="d-flex  justify-content-between col-md-4 col-4">
+              <div class="col-sm-11 col-md-6">
+                <div class="\ bg-light rounded d-flex align-items-center  p-4">
+                    <i class="fa fa-chart-line fa-3x text-primary"></i>
+                    <div class="ms-3">
+                        <p class="mb-2">Total Orders</p>
+                        <h6 class="mb-0"><%=orderdetails.length%> Orders</h6>
+                    </div>
+                </div>
+            </div>
+               
+            </div>
+
+          </div>
+
+          
+         
+          <div class="d-lg-flex justify-content-between">
+          <div class=" rounded h-auto  col-lg-5">
+            <h6 class="mb-1">Total Sales</h6>
+            <canvas id="line-chart" width="400" height="400"></canvas>
+        </div>
+        <div  class=" rounded h-auto col-lg-5">
+          <h6 class="mb-1">Monthly Sales</h6>
+          <canvas id="myChart" width="400" height="400"></canvas>
+      </div>
+      </div>
+      
+    <section  class="h-100 mt-4  ">
+      <h2 class="text-center">Order Stat</h2>
+    
+      <div class="container  table-responsive">
+        <table class="table shadow text-center ">
+          <thead class="table-dark">
+            <tr>
+              <th scope="col">Date Specific</th>
+              <th scope="col">Month Specific</th>
+              <th scope="col"> year specific</th>
+          
+
+            </tr>
+          </thead>
+          <tbody class="searchable ">
+            <%if(message){%>
+              <%=message.message%>
+              <%}%>
+          
+            <tr >
+              <td class="p-5"> 
+                 <form action="/admin/datestat" class="d-flex" id="date_stat" method="post">
+                <input type="date" name="Datestat"  >
+                <button type="submit" class="mx-4 btn btn-primary" >submit</button>
+                 </form></td>
+              <td class="p-5">
+                 <form action="/admin/monthstat" class="d-flex" id="month-stat"  method="post">
+                <select name="m_month" id="m_month">
+                  <option value="01">Jan</option>
+                  <option value="02">Feb</option>
+                  <option value="03">March</option>
+                  <option value="04">April</option>
+                  <option value="05">May</option>
+                  <option value="06">June</option>
+                  <option value="07">July</option>
+                  <option value="08">august</option>
+                  <option value="09">september</option>
+                  <option value="10">October</option>
+                  <option value="11">November</option>
+                  <option value="12">December</option>
+                </select>
+                <select name="m_year" class="mx-2" id="m_year">
+                  <option value="2022">2022</option>
+                  <option value="2021">2021</option>
+                  <option value="2020">2020</option>
+                  <option value="2019">2019</option>
+                </select>
+             <button type="submit" class="btn btn-primary" >submit</button>
+              </form></td>
+              <td class="p-5"><form action="/admin/yearstat" class="d-flex"  method="post">
+                <select name="yearstat"  id="m_month">
+                  <option value="2022">2022</option>
+                  <option value="2021">2021</option>
+                  <option value="2020">2020</option>
+                  <option value="2019">2019</option>
+                
+                </select>
+             <button type="submit" class="btn btn-primary mx-5" >submit</button>
+              </form></td>
+             
+          
+            </tr>
+         
+        
+          </tbody>
+        </table>
+      </div>
+    </section>
+     
+   
+        </div>
+      
+
+        </div>
+      </div>
+    </section>
+
+
+    
+    <script>
+      $(document).ready(function() {
+      $('#example').DataTable();
+  } );
+  </script>
+  
+
+    <script>
+
+
+      $(window).on('load',function() {
+     let money = []
+      let date = []
+      let week=[]
+      let month = []
+      let monthMoney =[]
+    
+    $.ajax({
+          url:'/admin/order-details',
+          method:'get',
+          success:(response)=>{
+  
+              
+    
+            response.forEach(data => {
+          date.push((data.date).split('T')[0])
+          money.push(data.totalAmount)
+          });
+         date.reverse()
+         money.reverse()
+           
+          }    
+    });
+    $.ajax({
+          url:'/admin/orderstatmonth',
+          method:'get',
+          success:(response)=>{
+  
+           response.forEach(data=>{
+             
+             switch(data._id)
+             {
+              case 1 : month.push("Jan")
+                       break;
+                      case 2 : month.push("Feb")
+                       break;
+                       case 3 : month.push("Mar")
+                       break;
+                       case 4 : month.push("Apr")
+                       break;
+                       case 5 : month.push("May")
+                       break;
+                       case 6 : month.push("Jun")
+                       break;
+                       case 7 : month.push("July")
+                       break;
+                       case 8 : month.push("Aug")
+                       break;
+                       case 9 : month.push("Sep")
+                       break;
+                       case 10 : month.push("Oct")
+                       break;
+                       case 11: month.push("Nov")
+                       break;
+                       case 12: month.push("Dec")
+                       break;
+             }
+              monthMoney.push(data.total)
+  
+           })
+           month.reverse()
+           monthMoney.reverse()
+          }
+    });
+
+        setTimeout(()=>{
+          var ctx3 = $("#line-chart").get(0).getContext("2d");
+    var myChart3 = new Chart(ctx3, {
+        type: "line",
+        data: {
+            labels: date,
+            datasets: [{
+                label: "total Sales",
+                fill: false,
+                backgroundColor: "rgba(0, 156, 255, .3)",
+                data: money
+                
+            }]
+        },
+        options: {
+            responsive: true
+        }
+    });
+
+    },300)
+
+
+    
+      setTimeout(()=>{
+      var ctx3 = $("#myChart").get(0).getContext("2d");
+     var myChart3 = new Chart(ctx3, {
+         type: "bar",
+         data: {
+             labels: month,
+             datasets: [{
+                 label: "Orders this month",
+                 fill: false,
+                 backgroundColor: "rgba(0, 156, 255, .3)",
+                 data: monthMoney
+             }]
+         },
+         options: {
+             responsive: true
+         }
+     });
+  },300)
+   
+      })  
+     
+   
+
+   
+     
+     
+         
+    
+  </script>
+    
+
+
+<%-include('../include/adminresfooter.ejs')-%>

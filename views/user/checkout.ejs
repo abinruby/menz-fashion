@@ -1,0 +1,373 @@
+<%-include('../include/userheader.ejs')-%>
+ <style>
+      /* to display button according to radio */
+      .clr{
+        display:none ;
+      }
+    
+      .disbtn{
+
+        display: block;
+
+      }
+    </style>
+    <nav
+      class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light"
+      id="ftco-navbar"
+    >
+      <div class="container">
+        <a class="navbar-brand" href="/">menz store </a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#ftco-nav"
+          aria-controls="ftco-nav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="oi oi-menu"></span> Menu
+        </button>
+
+        <div class="collapse navbar-collapse" id="ftco-nav">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+              <a href="/" class="nav-link">Home</a>
+            </li>
+
+            <li class="nav-item">
+              <a href="/shop" class="nav-link">shop</a>
+            </li>
+            <%if(locals.isuser){%>
+            <li class="nav-item">
+              <a href="/logout" class="nav-link">Log out</a>
+            </li>
+            <%}else{%>
+            <li class="nav-item">
+              <a href="/signup" class="nav-link">sign up</a>
+            </li>
+            <li class="nav-item">
+              <a href="/login" class="nav-link">Login</a>
+            </li>
+            <%}%>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <!-- END nav -->
+
+    <section class="ftco-section ">
+      <h3 class="mb-4 billing-heading text-center">checkout-form</h3>
+      <div class="container shadow-sm py-4 px-2 ">
+        <div class="row justify-content-center">
+          <div class="col-xl-8 ftco-animate">
+            <!-- Pills navs -->
+            <ul
+              class="nav nav-pills nav-justified mb-3"
+              id="ex1"
+              role="tablist"
+            >
+              <li class="nav-item" role="presentation">
+                <a
+                  class="nav-link active"
+                  id="tab-login"
+                  data-mdb-toggle="pill"
+                  href="#pills-login"
+                  role="tab"
+                  aria-controls="pills-login"
+                  aria-selected="true"
+                  >Saved address</a
+                >
+              </li>
+              <li class="nav-item" role="presentation">
+                <a
+                  class="nav-link"
+                  id="tab-register"
+                  data-mdb-toggle="pill"
+                  href="#pills-register"
+                  role="tab"
+                  aria-controls="pills-register"
+                  aria-selected="false"
+                  >New address</a
+                >
+              </li>
+            </ul>
+            <!-- Pills navs -->
+
+            <!-- Pills content -->
+            <div class="tab-content">
+              <div
+                class="tab-pane fade show active"
+                id="pills-login"
+                role="tabpanel"
+                aria-labelledby="tab-login"
+              >
+                <form
+                  action=""
+                  id="checkout-saveaddress-form"
+                  class="checkout-form"
+                >
+                
+                  <div class="row align-items-end">
+                    <% if(savedAddress.length){%>
+
+                    <div class="d-md-flex">
+                   
+                        <input
+                          type="text"
+                          name="userId"
+                          value="<%=userId%>"
+                          hidden
+                          class="form-control"
+                          placeholder=""
+                        />
+                    
+                    </div>
+                    
+                  <div class="col-md-10  d-flex">
+                    <div class="form-group">
+                      <label for=""> Saved Address</label>
+                      <!-- <h5 class="mb-4" style="font-weight: bold">
+                       
+                      </h5> -->
+
+                      <% if(savedAddress.length){%>
+                         <%for (let i=0;i < savedAddress.length;i++){%>
+
+                      <div class="form-check col-md-12 py-2">
+                        <% const saved = JSON.stringify(savedAddress[i])%>
+
+                        <input
+                        required
+                          class="form-check-input "
+                          type="radio"
+                          value="<%=saved%>"
+                          name="savedAddress"
+                          id="flexRadioDefault<%=i%>"
+                        />
+                        <label
+                          class="form-check-label"
+                          for="flexRadioDefault<%=i%>"
+                        >
+                          <%=savedAddress[i].address1%>, <%=savedAddress[i].address2%>
+                        </label>
+                      </div>
+
+                      <%}%> <%}else{%>
+                      <p class="d-flex total-price">
+                        <span lass="col-12">saved address is empty</span>
+                      </p>
+                      <%}%>
+                    </div>
+                  </div>
+                   
+                   </div>
+                  
+
+
+                  <div class="row mt-5 pt-3 d-flex">
+                
+                    <div class="col-md-6">
+                      <div class="cart-detail bg-light p-3 p-md-4">
+                        <h3 class="billing-heading mb-4">Cart Total</h3>
+                        <hr />
+                       
+                        <div class= "text-dark d-flex fw-bold total-price ">
+                          <p  class="me-3 fs-5">Total</p>
+                          <p class=" fs-5">Rs <%=total%></p>
+                        </div>
+                        <h3 class="billing-heading mb-4">Payment Method</h3>
+                        <div class="form-group">
+                          <div class="col-md-12">
+
+                            <div class="radio">
+                              <label
+                                ><input
+                                  type="radio"
+                                  value="cod"
+                                  name="paymentmethod"
+                                  class="mr-2",
+                                  id="cod-radio"
+                                onclick="displaycheckout()"
+                                />
+                                Cash on delivery</label
+                              >
+                            </div>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <div class="col-md-12">
+                            <div class="radio">
+                              <label
+                                ><input
+                                  type="radio"
+                                  value="RazorPay"
+                                  name="paymentmethod"
+                                  class="mr-2"
+                                  id="razorpay-radio"
+                                  onclick="displaycheckout()"  
+                                />
+                           
+                               RazorPay</label
+                              >
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="form-group">
+                          <div class="col-md-12">
+                            <div class="radio">
+                              <label
+                              ><input
+                              id="paypal-radio"
+                                type="radio"
+                                value="paypal"
+                                name="paymentmethod"
+                                class="mr-2"
+                                onclick="displaypaypal()"
+                              />
+                             Paypal</label>
+                            </div>
+                          </div>
+                        </div>
+                        <%if(walletdetails.amount>total){%>
+                          <div class="form-group">
+                            <div class="col-md-12">
+                              <div class="radio">
+                                <label
+                                ><input
+                                id="wallet-radio"
+                                  type="radio"
+                                  value="wallet"
+                                  name="paymentmethod"
+                                  class="mr-2"
+                                  onclick="displaycheckout()"
+                                />
+                               Wallet</label>
+                              </div>
+                            </div>
+                          </div>
+                          <%}%>
+                
+                        <div class="clr" id="checkout-button">
+                        <button type="submit" id="checkoutbtn"  class=" btn btn-primary py-3 px-4 ">
+                          Place an order
+                        </button>
+                      </div>
+                        <div id="paypal-button-container" class="clr"  style=" margin-top: 1rem;"></div>
+                      </div>
+                    </div>
+                    <%}else{%>
+
+                    <p class="text-danger"> please add a address to chekout</p> 
+                      <%}%>
+                    </form>
+                    <div class="col-md-6 d-flex">
+                      <%if(savedAddress.length){%>
+                      <div class="cart-detail cart-total bg-light p-3 p-md-4">
+                            <%if(message){%>
+                             <p class="text-danger"><%=message.message%></p> 
+                              <%}%>  
+                            <h3 class="billing-heading mb-4">Coupon</h3>
+                            <hr />   
+                            <%if(couponused){%>
+                              <input type="text" disabled name="coupon" value="<%=usedcoupon.coupon%>" id="coupon">
+                              <button type="submit" disabled  class="btn btn-success">applied</button>
+                              <p class="text-success "><%=usedcoupon.offer%>/-Rs  off</p>
+                      <%}else{%>
+                        <%console.log(usedcoupon,'used coupon')%>
+                        <form action="/applycoupon"  method="post">
+                          <p>Coupon</p>     
+                    <input type="text" name="coupon" id="coupon">
+                    <input type="number" name="totalamount" hidden value="<%=total%>">
+                    <button type="submit"  class="btn btn-success">apply</button>
+                  </form>
+                        <%}%>
+                      <button type="button"  id="displaycoupons"  class="btn btn-outline-info my-3">available Coupons</button>
+                      <div id="showcoupons" style="display: none;">
+                      <%for(let i=0; i< availableCoupons.length;i++){%>
+                     <p><%=availableCoupons[i].coupon%></p> 
+                        <%}%>
+                      </div>
+                      </div>
+                    </div>
+                  </div>
+                  <%}else{%>
+
+                    
+                    <%}%>
+                  </div>
+                <div class="col-md-6 d-flex">
+                
+                </div>         
+              
+              <div
+                class="tab-pane fade"
+                id="pills-register"
+                role="tabpanel"
+                aria-labelledby="tab-register"
+              >
+
+             
+                <form action="/checkoutsaveaddress" id="checkout-address" method="post" class=" ">
+                  
+                    <h3 class="mb-4 billing-heading">User  Profile</h3>
+                  <div class="form-group">
+                    
+                    
+                            <div class="w-100"></div>
+                           
+                            <div class="row align-items-end">
+                            <div class="col-md-6">
+                              <div class="form-group">
+                                <label for="streetaddress">Street Address</label>
+                                <input type="text" class="form-control"id='address1' name="address1" required placeholder="House number and building name">
+                              </div>
+                            </div>
+                            <div class="col-md-6">
+                              <div class="form-group">
+                                <input type="text" class="form-control" id="address2" name="address2" required placeholder="Road name, Area, Colony etc" >
+                              </div>
+                            </div>
+                            <div class="w-100"></div>
+                            <div class="col-md-6">
+                              <div class="form-group">
+                                <label for="towncity">Town / City</label>
+                                <input type="text " id="town" name="town" required class="form-control" placeholder="town">
+                              </div>
+                            </div>
+                            <div class="col-md-6">
+                              <div class="form-group">
+                                <label for="postcodezip">Postcode / ZIP *</label>
+                                <input type="number" id="postcode" name="postcode" required class="form-control" placeholder="postcode">
+                              </div>
+                            </div>
+                            <div class="w-100"></div>
+                      <div class="col-xl-8 ftco-animate">
+                        <button  type="submit"  class="btn btn-primary mt-5 py-3  px-4">save details </button>
+                        
+                       </div>
+                  </form>
+              </div>
+              </div>
+              </div>
+            </div>
+            <!-- Pills content -->
+          </div>
+          <!-- .col-md-8 -->
+        </div>
+      </div>
+    </section>
+    <!-- .section -->
+
+  
+		<%-include('../include/userfooter.ejs')-%>
+
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script src="/js/paypal-pay.js"></script>
+
+
+<script src="/js/checkout.js"></script>
+
+

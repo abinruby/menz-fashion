@@ -1,0 +1,163 @@
+<%-include('../include/adminheader.ejs')-%>
+
+  <body>
+    
+    <nav class="navbar navbar-expand-lg navbackground mb-5">
+      <div class="container-fluid ">
+        <a class="navbar-brand" href="/admin">Admin </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link "  href="/admin">dashboard</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/admin/orders">Orders</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/admin/products">Products</a>
+            </li>
+            <li class="nav-item">
+              <a href="/admin/usermanagement" class="nav-link ">Users</a>
+            </li>
+            <li class="nav-item">
+              <a href="/admin/category" class="nav-link ">Category</a>
+            </li>
+            <li class="nav-item">
+              <a href="/admin/logout" class="nav-link ">Sign out</a>
+            </li>
+            <li class="nav-item dropdown-content">
+              
+               
+             
+              <div class="dropdown">
+                <button class="btn btn  border-0 shadow-none dropdown-toggle nav-link " type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
+              Offers
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                  <li> <a href="/admin/categoryoffer" class="nav-link">Category Offers</a></li>
+                  <li> <a href="/admin/couponoffer" class="nav-link">coupon Offers</a></li>
+                  <li><a href="/admin/referraloffer" class="nav-link">Referal Offers</a></li>
+                </ul>
+              </div>
+            </li>
+            <li class="nav-item">
+              <a href="/admin/bannermanage" aria-current="page" class="nav-link active"> banner</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+
+      <section class="col-md-12 col-lg-12 ml-auto mb-2">
+        <div class="container   mt-4">
+            <div class="row d-flex justify-content-center  ">
+                <div class="col-md-4 -">
+                  <h2 class="text-center">Add banner </h2> 
+                  <form action="/admin/banner" class=" pt-2 ml-auto" id="banner21" enctype="multipart/form-data" method="post">
+                    <label class="form-label" for="customFile">image</label>
+                    <input type="file" required id="id_image1" name="bannerimage" accept="image/*" class="form-control" onchange="viewImage1(event)"
+                      style="width:100%;"><br>
+                       <img src="" id="imgView1" alt="" style="height:100px ;display:none">
+                               
+                        <!-- 
+                        <input type="file" class="form-control " name="bannerimage" id="customFile" /> -->
+                        <label class="form-label" for="heading">heading for banner</label>
+                        <input type="text" name="heading"  id="heading" >
+                        <br>
+                        <label class="form-label " for="desc">description for banner</label>
+                        <input type="text" class="d-block" name="desc"  id="desc" >
+                        <br>
+                        <button type="submit" class="my-4 btn btn-primary">submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+  
+    <section  class="h-100 mt-4  ">
+      <h2 class="text-center">Ordered Products</h2>
+    
+      <div class="container  table-responsive">
+        <table class="table shadow text-center ">
+          <thead class="table-dark">
+            <tr>
+              <th scope="col">banner Image</th>
+              <th scope="col">Heading</th>
+              <th scope="col">description</th>
+              <th scope="col">Action</th>
+            </tr>
+          </thead>
+          <tbody class="searchable ">
+            <%if(message){%>
+              <%=message.message%>
+              <%}%>
+              <%for(let i=0;i< bannerdetails.length;i++){%>
+                <tr>
+                  <td><img src="/<%=bannerdetails[i].image%>"width="100" height="100" class="img-thumbnail" alt="product image"></td>
+                  <td><%=bannerdetails[i].heading%></td>
+                  <td><%=bannerdetails[i].desc%></td>
+                <td> <a onclick="confirmation('<%=bannerdetails[i]._id%>')"  class="text-success"><i style="color: red;" class="fas fa-trash fa-lg mx-1"></i ></a></td> 
+                  </tr>
+                  <%}%>
+        
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+
+  
+     
+</body>
+<%-include('../include/adminresfooter.ejs')-%>
+
+<script>
+
+
+
+
+  function viewImage1(event) {
+var fileInput1 = document.getElementById('id_image1');
+var filePath1 = fileInput1.value;
+var allowedExtensions = /(\.jpg)$/i;
+if (!allowedExtensions.exec(filePath1)) {
+  fileInput1.value = '';
+  swal("There is a problem!", "Please choose image file.");
+  return false;
+} else {
+  document.getElementById("imgView1").style.display = "block";
+  document.getElementById('imgView1').src = URL.createObjectURL(event.target.files[0])
+}
+}
+  function confirmation(id){
+    swal({
+  title: "Are you sure?",
+  text: "Once deleted, you will not be able to recover this product!",
+  icon: "warning",
+  buttons: true,
+  dangerMode: true,
+})
+.then((result) => {
+  if (result) {
+   
+
+    swal("file has been deleted!", {
+      icon: "success",
+    }).then(()=>{
+       location.href = `/admin/deletebanner/${id}`;
+    })
+   
+  } else {
+    swal("Your  file is safe!");
+  }
+});
+}
+    
+
+  
+</script>
+  

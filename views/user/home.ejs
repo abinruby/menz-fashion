@@ -1,0 +1,133 @@
+<%-include('../include/userheader.ejs')-%>
+	<nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
+	    <div class="container">
+	      <a class="navbar-brand" href="/">menz store </a>
+	      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+	        <span class="oi oi-menu"></span> Menu
+	      </button>
+
+	      <div class="collapse navbar-collapse" id="ftco-nav">
+	        <ul class="navbar-nav ml-auto">
+	          <li class="nav-item active"><a href="/" class="nav-link">Home</a></li>
+	         
+	          <li class="nav-item"><a href="/shop" class="nav-link">shop</a></li>
+			  <%if(locals.isuser){%>
+				<li class="nav-item"><a href="/orders" class="nav-link">Orders</a></li>
+				<li class="nav-item"><a href="/logout" class="nav-link">Log out</a></li>
+				<li class="nav-item"><a href="/userprofile" class="nav-link">Profile</a></li>
+				<%}else{%>
+	          <li class="nav-item"><a href="/signup" class="nav-link">sign up</a></li>
+	          <li class="nav-item"><a href="/login" class="nav-link">Login</a></li>
+			  
+			  
+			
+			  <%}%>
+			  <%if(cartcount){%>
+	          <li class="nav-item cta cta-colored"><a href="/cart" class="nav-link"><span class="icon-shopping_cart"></span>[<%=cartcount%>]</a></li>
+				<%}else{%>	
+					<li class="nav-item cta cta-colored"><a href="/cart" class="nav-link"><span class="icon-shopping_cart"></span>[0]</a></li>
+					<%}%>
+	        </ul>
+	      </div>
+	    </div>
+	  </nav>
+   
+    <!-- END nav -->
+
+    <section id="home-section" class="hero">
+		  <div class="home-slider js-fullheight owl-carousel">
+			<%if(bannerimage.length>0){%>
+				<%for(let i=0;i< bannerimage.length;i++){%>
+	      <div class="slider-item js-fullheight">
+	      	<div class="overlay"></div>
+	        <div class="container-fluid p-0">
+	          <div class="row d-md-flex no-gutters slider-text js-fullheight align-items-center justify-content-end" data-scrollax-parent="true">
+	          	<div class=" order-md-last img js-fullheight" style="background-image:url(/<%=bannerimage[i]?.image%>);">
+	          	</div>
+				
+		          <div class="one-forth d-flex js-fullheight align-items-center ftco-animate" data-scrollax=" properties: { translateY: '70%' }">
+		          	<div class="text">
+		 
+		          		<div class="horizontal ">
+		          			<h3 class="vr" style="background-image: url(/<%=bannerimage[i]?.image%>);"></h3>
+				            <h1 class="mb-4 mt-3 text-white fw-bold"><%=bannerimage[i]?.heading%></h1>
+				            <p class="fw-300 text-white"><%=bannerimage[i]?.desc%></p>
+				            
+				            <p><a href="/shop" class="btn btn-primary px-5 py-3 mt-3">Discover Now</a></p>
+				          </div>
+		            </div>
+		          </div>
+	        	</div>
+	        </div>
+	      </div>
+		  <%}%>
+		  <%}%>
+	    </div>
+    </section>
+    <section class="ftco-section bg-light">
+    	<div class="container">
+				<div class="row justify-content-center mb-3 pb-3">
+          <div class="col-md-12 heading-section text-center ftco-animate">
+            <h2 class="mb-4">New Stocks has Arrived</h2>
+         
+          </div>
+        </div>   		
+    	</div>
+    	<div class="container">
+    		<div class="row">
+				
+				<%for(let i=0;i< newproducts.length;i++){%>
+    			<div class="col-sm-6 col-12 col-md-6 col-lg ftco-animate">
+    				<div class="product">
+    					<a href="/productview/<%=newproducts[i]._id%>" class="img-prod"><img class="img-fluid" src="/<%=newproducts[i].image[0]%>" alt="Colorlib Template">
+    						
+    						<div class="overlay"></div>
+    					</a>
+    					<div class="text py-3 px-3">
+    						<h3><a href="/productview/<%=newproducts[i]._id%>"><%=newproducts[i].product_name%></a></h3>
+    						<div class="d-flex">
+								<!-- ------------- checking if  there is category offer or not ------------- -->
+    						
+								<div class="pricing">
+									
+									
+										
+									<%if(newproducts[i].price == newproducts[i].offerprice ){%>
+										<p class="price"><span class="price-sale">Rs <%=newproducts[i].price  %></span></p>
+									<%}else{%>
+										
+										<div class="d-flex">
+										<p class="price span px-2"><span class="price-sale text-danger"><del>Rs <%=newproducts[i].price  %></del> </span></p>
+		    						<p class="price span"><span class="price-sale">Rs <%=newproducts[i].offerprice  %></span></p>
+								</div>
+								
+									<%}%>
+								
+
+		    					</div>
+	    					</div>
+	    					<p class="bottom-area d-flex px-3">
+								<% if(newproducts[i].stock > 0){%>
+									<a href="/add-to-cart/<%=newproducts[i]._id%>" class="add-to-cart text-center py-2 mr-1"><span>Add to cart <i class="ion-ios-add ml-1"></i></span></a>
+									<%}else{%>
+										<a class="add-to-cart text-center py-2 mr-1"><span>Out of stock</span></a>
+										<%} %>
+    							<a href="/add-to-wishlist/<%=newproducts[i]._id%>" class="buy-now text-center py-2">wishlist<span><i class="ion-ios-cart ml-1"></i></span></a>
+									
+										
+										
+									
+    							
+    						</p>
+    					</div>
+    				</div>
+    			</div>
+				<%}%>
+    			
+    		</div>
+    	</div>
+    </section>
+
+		<hr>
+
+		<%-include('../include/userfooter.ejs')-%>

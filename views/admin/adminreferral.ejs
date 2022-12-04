@@ -1,0 +1,155 @@
+<%-include('../include/adminheader.ejs')-%>
+
+  <body>
+    
+    <nav class="navbar navbar-expand-lg navbackground mb-5">
+      <div class="container-fluid ">
+        <a class="navbar-brand" href="/admin">Admin </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link "  href="/admin">dashboard</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/admin/orders">Orders</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/admin/products">Products</a>
+            </li>
+            <li class="nav-item">
+              <a href="/admin/usermanagement" class="nav-link ">Users</a>
+            </li>
+            <li class="nav-item">
+              <a href="/admin/category" class="nav-link ">Category</a>
+            </li>
+            <li class="nav-item">
+              <a href="/admin/logout" class="nav-link ">Sign out</a>
+            </li>
+            <li class="nav-item dropdown-content">
+              
+               
+             
+              <div class="dropdown">
+                <button class="btn btn  border-0 shadow-none dropdown-toggle nav-link " type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
+              Offers
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                  <li> <a href="/admin/categoryoffer" class="nav-link">Category Offers</a></li>
+                  <li> <a href="/admin/couponoffer" class="nav-link">coupon Offers</a></li>
+                  <li><a href="/admin/referraloffer" class="nav-link active" aria-current="page">Referal Offers</a></li>
+                </ul>
+              </div>
+            </li>
+            <li class="nav-item">
+              <a href="/admin/bannermanage" class="nav-link "> banner</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+
+      <section class="col-md-9 col-lg-10 ml-auto mb-2">
+        <div class="container mt-4">
+            <div class="row">
+
+                <div class="col-md-4">
+                  <h2 class="text-center">Referral offer</h2>
+                  
+
+
+                    <form action="/admin/referraloffer" id="referraloffer" method="post">
+                      
+                   
+                        <label for="">Referral  Amount</label>
+                        <div>
+                        <input type="number" name="referral" value="<%= referalamountdetails?.referralAmount%>" placeholder="Referal Amount" class="form-control mb-3">
+                       </div>
+                       <label for="">Reffered User Amount</label>
+                        <div>
+                        <input type="number" name="referreduserAmount" value="<%= referalamountdetails?.refereduserAmount%>" placeholder="Referal Amount" class="form-control mb-3">
+                       </div>
+                       
+                        <button type="submit" class="btn btn-success mt-3 ">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+   <%if(message){%>
+              <p> <%=message.message%></p> 
+                <%}%>
+                
+    <section  class="h-100 mt-4  ">
+      <h2 class="text-center">User Details</h2>
+    
+      <div class="container  table-responsive">
+        <table class="table  text-center ">
+          <thead class="table-dark">
+            <tr>
+              <th scope="col">Referal Amount</th>
+              <th scope="col">Referred user Amount</th>
+
+              <th scope="col">Action</th>    
+
+            </tr>
+          </thead>
+          <tbody class="searchable ">
+            <%if(message){%>
+              <%=message.message%>
+              <%}%>
+          
+              <tr>
+                <%if(referalamountdetails){%>
+              
+                  <td class="p-5"><%=referalamountdetails.referralAmount%> Rs</td>
+                  <td class="p-5"><%=referalamountdetails.refereduserAmount%> Rs</td> 
+                  <td class="p-5">
+                     <a  id="confirm" onclick="confirmation('<%=referalamountdetails._id%>')" class="btn btn-danger">delete</a></td>
+                   
+                   </tr>
+               <%}%>
+         
+        
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+      
+
+
+     
+ 
+</body>
+<script>
+  function confirmation(id) {
+      swal({
+        title: "Are you sure?",
+        text: "Once deleted, you will not be able to recover this product!",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+      })
+      .then((result) => {
+        // redirect with javascript here as per your logic after showing the alert using the urlToRedirect value
+        if (result) {
+         
+      
+          swal("file has been deleted!", {
+            icon: "success",
+          }).then(()=>{
+             location.href = `/admin/deletereferaloffer/${id}`;
+          })
+         
+        } else {
+          swal("Your  file is safe!");
+        }
+      });
+      }
+      </script>
+  
+<%-include('../include/adminresfooter.ejs')-%>
