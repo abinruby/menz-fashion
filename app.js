@@ -62,7 +62,7 @@ app.use(function(err, req, res, next) {
    res.render('include/404',{adminlog,userlog})
 });
 
-mongoose.connect('mongodb+srv://abinkruby:abin12345678@cluster0.gqa7vyt.mongodb.net/?retryWrites=true&w=majority').then(()=>{console.log('Database connected Successfully');})
+mongoose.connect('mongodb+srv://abin123:<abin123>@cluster0.fzyoauk.mongodb.net/test').then(()=>{console.log('Database connected Successfully');})
 .catch((err)=>{console.log(err);})
 
 module.exports = app;
